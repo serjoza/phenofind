@@ -1,14 +1,15 @@
 (function () {
   "use strict";
 
+  var STORAGE_KEY = "phenofind-validacija-results";
+
   var STATUS = {
-    connected: "Povezano",
+    ready: "Pripravljeno",
     loading: "Nalagam ...",
     imageLoading: "Nalagam novo sliko ...",
     saving: "Shranjujem ...",
     saved: "Shranjeno",
-    saveError: "Napaka pri shranjevanju",
-    offline: "Strežnik ni dosegljiv"
+    saveError: "Napaka pri shranjevanju"
   };
 
   var OFFICIAL_BBCH_STAGES = [
@@ -79,7 +80,6 @@
     filter: "all",
     saving: false,
     correctionOpen: false,
-    imagesDirExists: true,
     displayedImageUrl: ""
   };
 
@@ -98,7 +98,8 @@
       "yesButton", "noButton", "correctionPanel", "correctionSelect", "manualFields",
       "manualBbch", "manualDescription", "saveCorrection", "cancelCorrection",
       "currentIndex", "prevButton", "nextButton", "showUnvalidated", "showAll",
-      "exportResults", "resetButton", "lastResultsBox", "lastResults"
+      "exportResults", "resetButton", "lastResultsBox", "lastResults",
+      "metadataUpload", "uploadSection"
     ].forEach(function (id) {
       el[id] = document.getElementById(id);
     });
@@ -124,116 +125,295 @@
       state.correctionOpen = false;
       render();
     });
-    el.exportResults.addEventListener("click", function () {
-      window.location.href = "/api/export";
-    });
+    el.exportResults.addEventListener("click", exportResultsCsv);
     el.resetButton.addEventListener("click", resetProgress);
+    if (el.metadataUpload) {
+      el.metadataUpload.addEventListener("change", handleMetadataUpload);
+    }
   }
+
+  // ---------------------------------------------------------------------------
+  // Startup: try metadata.json first, then fall back to upload UI
+  // ---------------------------------------------------------------------------
 
   async function loadApplication() {
     setStatus(STATUS.loading);
     clearError();
     setBusy(true);
-    try {
-      var metadataResponse = await fetchJson("/api/metadata");
-      var resultsResponse = await fetchJson("/api/results");
-      state.records = metadataResponse.records || [];
-      state.imagesDirExists = metadataResponse.images_dir_exists !== false;
-      state.results = mapResults(resultsResponse.results || []);
-      await maybeImportLocalStorage();
-      state.current = firstIncompleteIndex(getVisibleRecords());
-      setStatus(STATUS.connected);
-      render();
-    } catch (error) {
-      setStatus(STATUS.offline);
-      showError(error.message || "Strežnik ni dosegljiv.");
-      renderProgress();
-    } finally {
-      setBusy(false);
-    }
-  }
 
-  async function fetchJson(url, options) {
-    var response;
-    try {
-      response = await fetch(url, options || {});
-    } catch (error) {
-      throw new Error("Strežnik ni dosegljiv.");
-    }
-    var payload;
-    try {
-      payload = await response.json();
-    } catch (error) {
-      throw new Error("Neveljaven odgovor strežnika.");
-    }
-    if (!response.ok || payload.ok === false) {
-      throw new Error(payload.error || "Napaka strežnika.");
-    }
-    return payload;
-  }
+    // Load saved results from localStorage
+    state.results = loadResultsFromStorage();
 
-  function mapResults(results) {
-    var map = new Map();
-    results.forEach(function (result) {
-      var key = resultKey(result);
-      if (key) {
-        map.set(key, result);
+    // Try metadata.json first, then metadata.csv, then fall back to upload UI
+    try {
+      var jsonResponse = await fetch("metadata.json");
+      if (jsonResponse.ok) {
+        var data = await jsonResponse.json();
+        state.records = Array.isArray(data) ? data : (data.records || []);
+      } else {
+        var csvResponse = await fetch("metadata.csv");
+        if (!csvResponse.ok) {
+          throw new Error("Nobena metadatoteka ni bila najdena.");
+        }
+        var csvText = await csvResponse.text();
+        state.records = parseCsv(csvText);
       }
-    });
+      state.current = firstIncompleteIndex(getVisibleRecords());
+      setStatus(STATUS.ready);
+      showApp();
+      render();
+    } catch (err) {
+      // Neither file found — show the upload UI instead
+      setBusy(false);
+      setStatus("Čakam na datoteko ...");
+      showUploadSection();
+    }
+
+    setBusy(false);
+  }
+
+  // ---------------------------------------------------------------------------
+  // CSV upload fallback
+  // ---------------------------------------------------------------------------
+
+  function showUploadSection() {
+    if (el.uploadSection) {
+      el.uploadSection.classList.remove("hidden");
+    }
+    if (el.app) {
+      el.app.classList.add("hidden");
+    }
+    if (el.lastResultsBox) {
+      el.lastResultsBox.classList.add("hidden");
+    }
+  }
+
+  function showApp() {
+    if (el.uploadSection) {
+      el.uploadSection.classList.add("hidden");
+    }
+    if (el.app) {
+      el.app.classList.remove("hidden");
+    }
+  }
+
+  function handleMetadataUpload(event) {
+    var file = event.target.files && event.target.files[0];
+    if (!file) {
+      return;
+    }
+    var reader = new FileReader();
+    reader.onload = function (e) {
+      var text = e.target.result;
+      try {
+        var records = parseCsv(text);
+        if (!records.length) {
+          showError("CSV datoteka je prazna ali ni veljavna.");
+          return;
+        }
+        state.records = records;
+        state.current = firstIncompleteIndex(getVisibleRecords());
+        clearError();
+        setStatus(STATUS.ready);
+        showApp();
+        render();
+      } catch (err) {
+        showError("Napaka pri branju CSV: " + err.message);
+      }
+    };
+    reader.readAsText(file, "UTF-8");
+  }
+
+  // Minimal RFC-4180 CSV parser
+  function parseCsv(text) {
+    var lines = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n");
+    if (!lines.length) {
+      return [];
+    }
+    var headers = splitCsvLine(lines[0]);
+    var records = [];
+    for (var i = 1; i < lines.length; i++) {
+      var line = lines[i].trim();
+      if (!line) {
+        continue;
+      }
+      var values = splitCsvLine(line);
+      var record = {};
+      headers.forEach(function (header, index) {
+        record[header.trim()] = (values[index] || "").trim();
+      });
+      records.push(record);
+    }
+    return records;
+  }
+
+  function splitCsvLine(line) {
+    var result = [];
+    var current = "";
+    var inQuotes = false;
+    for (var i = 0; i < line.length; i++) {
+      var ch = line[i];
+      if (inQuotes) {
+        if (ch === '"' && line[i + 1] === '"') {
+          current += '"';
+          i++;
+        } else if (ch === '"') {
+          inQuotes = false;
+        } else {
+          current += ch;
+        }
+      } else {
+        if (ch === '"') {
+          inQuotes = true;
+        } else if (ch === "," || ch === ";") {
+          result.push(current);
+          current = "";
+        } else {
+          current += ch;
+        }
+      }
+    }
+    result.push(current);
+    return result;
+  }
+
+  // ---------------------------------------------------------------------------
+  // localStorage persistence
+  // ---------------------------------------------------------------------------
+
+  function loadResultsFromStorage() {
+    var map = new Map();
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) {
+        return map;
+      }
+      var arr = JSON.parse(raw);
+      if (!Array.isArray(arr)) {
+        return map;
+      }
+      arr.forEach(function (result) {
+        var key = resultKey(result);
+        if (key) {
+          map.set(key, result);
+        }
+      });
+    } catch (err) {
+      // Ignore corrupt data
+    }
     return map;
   }
 
-  async function maybeImportLocalStorage() {
-    if (state.results.size > 0) {
-      return;
+  function saveResultsToStorage() {
+    try {
+      var arr = Array.from(state.results.values());
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
+    } catch (err) {
+      // Storage might be full; non-fatal
     }
-    var oldData = collectOldLocalStorage();
-    if (!oldData.length || !window.confirm("Najden je shranjen napredek iz prejšnje različice. Ali ga želite uvoziti?")) {
-      return;
-    }
+  }
+
+  // ---------------------------------------------------------------------------
+  // Export CSV
+  // ---------------------------------------------------------------------------
+
+  function exportResultsCsv() {
+    var headers = [
+      "ID", "ime_datoteke", "proposed_BBCH", "proposed_fenofaza",
+      "validation_answer", "corrected_BBCH", "correction_source", "validation_datetime"
+    ];
+    var rows = [headers.join(",")];
+    state.results.forEach(function (result) {
+      var row = headers.map(function (h) {
+        var value = String(result[h] || "");
+        if (value.indexOf(",") !== -1 || value.indexOf('"') !== -1 || value.indexOf("\n") !== -1) {
+          value = '"' + value.replace(/"/g, '""') + '"';
+        }
+        return value;
+      });
+      rows.push(row.join(","));
+    });
+    var csv = rows.join("\n");
+    var blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement("a");
+    a.href = url;
+    a.download = "validacija_rezultati.csv";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  }
+
+  // ---------------------------------------------------------------------------
+  // Validation save / reset (now localStorage-backed)
+  // ---------------------------------------------------------------------------
+
+  function saveValidation(payload) {
+    state.saving = true;
+    setBusy(true);
     setStatus(STATUS.saving);
-    var response = await fetchJson("/api/import-localstorage", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ validations: oldData })
-    });
-    state.results = mapResults(response.results || []);
-    setStatus(STATUS.saved);
-  }
+    clearError();
 
-  function collectOldLocalStorage() {
-    var items = [];
-    for (var i = 0; i < localStorage.length; i += 1) {
-      var key = localStorage.key(i);
-      if (!key || key.indexOf("fenofaze-validacija:") !== 0) {
-        continue;
-      }
-      try {
-        var value = JSON.parse(localStorage.getItem(key));
-        items = items.concat(Array.isArray(value) ? value : Object.keys(value || {}).map(function (itemKey) {
-          return value[itemKey];
-        }));
-      } catch (error) {
-        // Ignore incompatible old browser data.
-      }
-    }
-    return items.filter(function (item) {
-      return item && item.validation_answer === "DA";
+    state.results.set(resultKey(payload), payload);
+    saveResultsToStorage();
+
+    state.correctionOpen = false;
+    moveToNextIncomplete();
+    render();
+    setStatus(STATUS.imageLoading);
+
+    waitForCurrentImage().then(function () {
+      setStatus(STATUS.saved);
+      state.saving = false;
+      setBusy(false);
+      render();
     });
   }
 
-  function clearOldLocalStorage() {
-    var keys = [];
-    for (var i = 0; i < localStorage.length; i += 1) {
-      var key = localStorage.key(i);
-      if (key && key.indexOf("fenofaze-validacija:") === 0) {
-        keys.push(key);
-      }
+  function resetProgress() {
+    if (state.saving || !window.confirm("Ali res želite izbrisati vse rezultate validacije?")) {
+      return;
     }
-    keys.forEach(function (key) {
-      localStorage.removeItem(key);
+    state.results = new Map();
+    state.current = 0;
+    state.filter = "all";
+    state.correctionOpen = false;
+    saveResultsToStorage();
+    setStatus(STATUS.ready);
+    render();
+  }
+
+  // ---------------------------------------------------------------------------
+  // Image loading
+  // ---------------------------------------------------------------------------
+
+  function waitForCurrentImage() {
+    var record = getVisibleRecords()[state.current];
+    if (!record || !record.ime_datoteke) {
+      return Promise.resolve();
+    }
+    // Images live in the "images/" folder next to index.html
+    var imageUrl = "images/" + encodeURIComponent(record.ime_datoteke);
+    return new Promise(function (resolve) {
+      var settled = false;
+      var timer = window.setTimeout(done, 30000);
+      var image = new Image();
+      function done() {
+        if (settled) { return; }
+        settled = true;
+        window.clearTimeout(timer);
+        resolve();
+      }
+      image.onload = done;
+      image.onerror = done;
+      image.src = imageUrl;
     });
   }
+
+  // ---------------------------------------------------------------------------
+  // Render helpers (unchanged from original)
+  // ---------------------------------------------------------------------------
 
   function getVisibleRecords() {
     if (state.filter === "unvalidated") {
@@ -261,9 +441,7 @@
 
   function isCompleted(record) {
     var result = resultFor(record);
-    if (!result) {
-      return false;
-    }
+    if (!result) { return false; }
     if (result.validation_answer === "DA") {
       return result.correction_source === "NOT_APPLICABLE";
     }
@@ -279,11 +457,8 @@
     el.lastResultsBox.classList.toggle("hidden", state.records.length === 0);
 
     if (!state.records.length) {
-      el.emptyImage.textContent = "metadata.csv je prazen ali manjka.";
+      el.emptyImage.textContent = "metadata.json / CSV je prazen ali manjka.";
       return;
-    }
-    if (!state.imagesDirExists) {
-      showError("Mapa JABLANA_DATABASE manjka.");
     }
     if (!visible.length) {
       renderNoVisibleRecords();
@@ -327,7 +502,8 @@
 
   function renderImage(record) {
     var filename = record.ime_datoteke || "";
-    var imageUrl = filename ? "/JABLANA_DATABASE/" + encodeURIComponent(filename) : "";
+    // Images are served from the "images/" subfolder
+    var imageUrl = filename ? "images/" + encodeURIComponent(filename) : "";
     el.mainImage.onload = function () {
       el.mainImage.classList.remove("hidden");
       el.emptyImage.classList.add("hidden");
@@ -337,7 +513,7 @@
       el.mainImage.classList.add("hidden");
       el.emptyImage.classList.remove("hidden");
       el.emptyImage.textContent = "Slika ni na voljo.";
-      el.missingImage.textContent = "Manjkajoča slika";
+      el.missingImage.textContent = "Manjkajoča slika: " + filename;
       el.missingImage.classList.remove("hidden");
     };
     if (!filename) {
@@ -387,9 +563,7 @@
     var result = resultFor(record);
     el.existingResult.innerHTML = "";
     el.existingResult.classList.toggle("hidden", !result);
-    if (!result) {
-      return;
-    }
+    if (!result) { return; }
     var lines = [];
     if (result.validation_answer === "DA") {
       lines.push("Ocena je potrjena.");
@@ -411,9 +585,7 @@
 
   function renderCorrectionPanel(record) {
     el.correctionPanel.classList.toggle("hidden", !state.correctionOpen);
-    if (!state.correctionOpen) {
-      return;
-    }
+    if (!state.correctionOpen) { return; }
     populateCorrectionSelect(record);
     renderManualFields();
   }
@@ -459,9 +631,7 @@
   }
 
   function renderManualDescription() {
-    if (!el.manualDescription) {
-      return;
-    }
+    if (!el.manualDescription) { return; }
     var code = el.manualBbch.value.trim();
     if (!code) {
       el.manualDescription.textContent = "";
@@ -506,27 +676,21 @@
 
   function moveBy(delta) {
     var visible = getVisibleRecords();
-    if (!visible.length || state.saving) {
-      return;
-    }
+    if (!visible.length || state.saving) { return; }
     state.current = Math.max(0, Math.min(visible.length - 1, state.current + delta));
     state.correctionOpen = false;
     clearError();
     render();
   }
 
-  async function saveYes() {
+  function saveYes() {
     var record = getVisibleRecords()[state.current];
-    if (!record || state.saving) {
-      return;
-    }
-    await saveValidation(buildPayload(record, "DA", "", "NOT_APPLICABLE"));
+    if (!record || state.saving) { return; }
+    saveValidation(buildPayload(record, "DA", "", "NOT_APPLICABLE"));
   }
 
   function openCorrectionPanel() {
-    if (state.saving) {
-      return;
-    }
+    if (state.saving) { return; }
     clearError();
     state.correctionOpen = true;
     el.manualBbch.value = "";
@@ -534,38 +698,30 @@
   }
 
   function closeCorrectionPanel() {
-    if (state.saving) {
-      return;
-    }
+    if (state.saving) { return; }
     state.correctionOpen = false;
     clearError();
     render();
   }
 
-  async function saveNoCorrection() {
+  function saveNoCorrection() {
     var record = getVisibleRecords()[state.current];
-    if (!record || state.saving) {
-      return;
-    }
+    if (!record || state.saving) { return; }
     var correction = selectedCorrection();
     if (!correction) {
       showError("Vnesena BBCH-koda ni na uradnem seznamu razvojnih faz za pečkato sadje.");
       return;
     }
-    await saveValidation(buildPayload(record, "NE", correction.bbch, correction.source));
+    saveValidation(buildPayload(record, "NE", correction.bbch, correction.source));
   }
 
   function selectedCorrection() {
     if (el.correctionSelect.value === "custom") {
       var bbch = el.manualBbch.value.trim();
-      if (!/^\d{2}$/.test(bbch) || !isOfficialCode(bbch)) {
-        return null;
-      }
+      if (!/^\d{2}$/.test(bbch) || !isOfficialCode(bbch)) { return null; }
       return { bbch: bbch, source: "MANUAL_ENTRY" };
     }
-    if (!isOfficialCode(el.correctionSelect.value)) {
-      return null;
-    }
+    if (!isOfficialCode(el.correctionSelect.value)) { return null; }
     return { bbch: el.correctionSelect.value, source: "OFFICIAL_DROPDOWN" };
   }
 
@@ -582,58 +738,6 @@
     };
   }
 
-  async function saveValidation(payload) {
-    state.saving = true;
-    setBusy(true);
-    setStatus(STATUS.saving);
-    clearError();
-    try {
-      var response = await fetchJson("/api/save-validation", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      });
-      state.results.set(resultKey(response.result), response.result);
-      state.correctionOpen = false;
-      moveToNextIncomplete();
-      render();
-      setStatus(STATUS.imageLoading);
-      await waitForCurrentImage();
-      setStatus(STATUS.saved);
-    } catch (error) {
-      setStatus(STATUS.saveError);
-      showError(error.message || "Napaka pri shranjevanju.");
-    } finally {
-      state.saving = false;
-      setBusy(false);
-      render();
-    }
-  }
-
-  function waitForCurrentImage() {
-    var record = getVisibleRecords()[state.current];
-    if (!record || !record.ime_datoteke) {
-      return Promise.resolve();
-    }
-    var imageUrl = "/JABLANA_DATABASE/" + encodeURIComponent(record.ime_datoteke);
-    return new Promise(function (resolve) {
-      var settled = false;
-      var timer = window.setTimeout(done, 30000);
-      var image = new Image();
-      function done() {
-        if (settled) {
-          return;
-        }
-        settled = true;
-        window.clearTimeout(timer);
-        resolve();
-      }
-      image.onload = done;
-      image.onerror = done;
-      image.src = imageUrl;
-    });
-  }
-
   function moveToNextIncomplete() {
     var visible = getVisibleRecords();
     var next = visible.findIndex(function (record, index) {
@@ -645,48 +749,13 @@
     state.current = next === -1 ? Math.min(state.current, Math.max(visible.length - 1, 0)) : next;
   }
 
-  async function resetProgress() {
-    if (state.saving || !window.confirm("Ali res želite izbrisati vse rezultate validacije?")) {
-      return;
-    }
-    state.saving = true;
-    setBusy(true);
-    setStatus(STATUS.saving);
-    clearError();
-    try {
-      await fetchJson("/api/reset", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: "{}"
-      });
-      state.results = new Map();
-      state.current = 0;
-      state.filter = "all";
-      state.correctionOpen = false;
-      clearOldLocalStorage();
-      setStatus(STATUS.saved);
-      render();
-    } catch (error) {
-      setStatus(STATUS.saveError);
-      showError(error.message || "Ponastavitve ni mogoče dokončati.");
-    } finally {
-      state.saving = false;
-      setBusy(false);
-      render();
-    }
-  }
-
   function isOfficialCode(code) {
     return typeof code === "string" && /^\d{2}$/.test(code) && Boolean(OFFICIAL_BY_CODE[code]);
   }
 
   function correctionSourceLabel(source) {
-    if (source === "OFFICIAL_DROPDOWN") {
-      return "izbor z uradnega seznama";
-    }
-    if (source === "MANUAL_ENTRY") {
-      return "ročni vnos";
-    }
+    if (source === "OFFICIAL_DROPDOWN") { return "izbor z uradnega seznama"; }
+    if (source === "MANUAL_ENTRY") { return "ročni vnos"; }
     return "-";
   }
 
@@ -699,9 +768,7 @@
       el.yesButton, el.noButton, el.saveCorrection, el.cancelCorrection, el.exportResults,
       el.resetButton, el.correctionSelect, el.manualBbch
     ].forEach(function (control) {
-      if (control) {
-        control.disabled = Boolean(isBusy);
-      }
+      if (control) { control.disabled = Boolean(isBusy); }
     });
   }
 
@@ -720,13 +787,9 @@
   }
 
   function formatDate(value) {
-    if (!value) {
-      return "-";
-    }
+    if (!value) { return "-"; }
     var date = new Date(value);
-    if (Number.isNaN(date.getTime())) {
-      return value;
-    }
+    if (Number.isNaN(date.getTime())) { return value; }
     return date.toLocaleString("sl-SI");
   }
 }());

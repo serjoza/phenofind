@@ -10,7 +10,7 @@
 <body>
   <div class="page">
     <header class="top">
-      <p class="notice">Podatki in slike so samodejno naloženi iz mape phenofind na namizju. Aplikacija deluje lokalno in podatkov ne pošilja na internet.</p>
+      <p class="notice">Podatki so naloženi iz datoteke <code>metadata.json</code> ali <code>metadata.csv</code>. Slike se nalagajo iz mape <code>images/</code>. Rezultati se shranjujejo lokalno v brskalniku.</p>
       <div class="top-grid">
         <div>
           <div class="progress-label">Napredek: <span id="progressText">0 / 0 (0 %)</span></div>
@@ -23,6 +23,17 @@
     </header>
 
     <div id="errorBox" class="error hidden"></div>
+
+    <!-- Upload fallback shown when metadata.json is not found -->
+    <section id="uploadSection" class="box upload-section hidden">
+      <h2>Uvozi metapodatke</h2>
+      <p>Datoteka <code>metadata.json</code> ni bila najdena. Prosim, naloži svojo CSV datoteko z metapodatki.</p>
+      <label for="metadataUpload" class="upload-label">
+        <span>Izberi CSV datoteko</span>
+        <input id="metadataUpload" type="file" accept=".csv,text/csv">
+      </label>
+      <p class="upload-hint">Pričakovane stolpce: <code>ID, ime_datoteke, BBCH ocena, Fenofaza, Zanesljivost, Opomba, lokacija, datum, ura</code></p>
+    </section>
 
     <main id="app" class="main hidden">
       <section class="box image-section">
@@ -78,7 +89,7 @@
         </div>
 
         <div class="exports">
-          <button id="exportResults" type="button">Izvozi rezultate</button>
+          <button id="exportResults" type="button">Izvozi rezultate (CSV)</button>
         </div>
 
         <button id="resetButton" class="danger" type="button">Ponastavi napredek</button>
