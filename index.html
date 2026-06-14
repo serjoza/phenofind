@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="sl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Phenofind validacija</title>
+  <link rel="stylesheet" href="/style.css">
+  <script defer src="/script.js"></script>
+</head>
+<body>
+  <div class="page">
+    <header class="top">
+      <p class="notice">Podatki in slike so samodejno naloženi iz mape phenofind na namizju. Aplikacija deluje lokalno in podatkov ne pošilja na internet.</p>
+      <div class="top-grid">
+        <div>
+          <div class="progress-label">Napredek: <span id="progressText">0 / 0 (0 %)</span></div>
+          <div class="progress-bar" aria-label="Napredek">
+            <div id="progressFill" class="progress-fill"></div>
+          </div>
+        </div>
+        <div id="statusIndicator" class="status-pill">Nalagam ...</div>
+      </div>
+    </header>
+
+    <div id="errorBox" class="error hidden"></div>
+
+    <main id="app" class="main hidden">
+      <section class="box image-section">
+        <div id="missingImage" class="warning hidden"></div>
+        <div class="image-wrap">
+          <img id="mainImage" alt="Slika za validacijo" class="hidden">
+          <div id="emptyImage" class="empty-image">Nalagam podatke ...</div>
+        </div>
+      </section>
+
+      <aside class="box side-panel">
+        <h1>Validacija fenofaze</h1>
+        <table class="meta-table">
+          <tbody id="metadataBody"></tbody>
+        </table>
+
+        <div id="existingResult" class="existing-result hidden"></div>
+
+        <div class="answer-row">
+          <button id="yesButton" class="yes" type="button">DA</button>
+          <button id="noButton" class="no" type="button">NE</button>
+        </div>
+
+        <section id="correctionPanel" class="correction hidden">
+          <h2>Izberite pravilno BBCH-kodo</h2>
+          <label for="correctionSelect">Uradna BBCH-koda</label>
+          <select id="correctionSelect"></select>
+
+          <div id="manualFields" class="manual-fields hidden">
+            <label for="manualBbch">Pravilna BBCH-koda</label>
+            <input id="manualBbch" type="text" autocomplete="off" inputmode="numeric" maxlength="2">
+            <div id="manualDescription" class="status"></div>
+          </div>
+
+          <div class="correction-actions">
+            <button id="saveCorrection" type="button">Shrani popravek</button>
+            <button id="cancelCorrection" class="secondary" type="button">Prekliči</button>
+          </div>
+        </section>
+
+        <div class="current">
+          <span id="currentIndex">0 / 0</span>
+        </div>
+
+        <div class="controls">
+          <button id="prevButton" class="secondary" type="button">Prejšnja</button>
+          <button id="nextButton" class="secondary" type="button">Naslednja</button>
+        </div>
+
+        <div class="filters">
+          <button id="showUnvalidated" class="secondary" type="button">Prikaži nepregledane</button>
+          <button id="showAll" class="secondary" type="button">Prikaži vse</button>
+        </div>
+
+        <div class="exports">
+          <button id="exportResults" type="button">Izvozi rezultate</button>
+        </div>
+
+        <button id="resetButton" class="danger" type="button">Ponastavi napredek</button>
+      </aside>
+    </main>
+
+    <section id="lastResultsBox" class="box last-results hidden">
+      <h2>Zadnjih 10 validacij</h2>
+      <ol id="lastResults"></ol>
+    </section>
+  </div>
+</body>
+</html>
