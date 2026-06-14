@@ -8,8 +8,7 @@
     loading: "Nalagam ...",
     imageLoading: "Nalagam novo sliko ...",
     saving: "Shranjujem ...",
-    saved: "Shranjeno",
-    saveError: "Napaka pri shranjevanju"
+    saved: "Shranjeno"
   };
 
   var OFFICIAL_BBCH_STAGES = [
@@ -98,8 +97,7 @@
       "yesButton", "noButton", "correctionPanel", "correctionSelect", "manualFields",
       "manualBbch", "manualDescription", "saveCorrection", "cancelCorrection",
       "currentIndex", "prevButton", "nextButton", "showUnvalidated", "showAll",
-      "exportResults", "resetButton", "lastResultsBox", "lastResults",
-      "metadataUpload", "uploadSection"
+      "exportResults", "resetButton", "lastResultsBox", "lastResults"
     ].forEach(function (id) {
       el[id] = document.getElementById(id);
     });
@@ -127,116 +125,50 @@
     });
     el.exportResults.addEventListener("click", exportResultsCsv);
     el.resetButton.addEventListener("click", resetProgress);
-    if (el.metadataUpload) {
-      el.metadataUpload.addEventListener("change", handleMetadataUpload);
-    }
   }
 
   // ---------------------------------------------------------------------------
-  // Startup: try metadata.json first, then fall back to upload UI
+  // Startup: fetch metadata.csv from the repo
   // ---------------------------------------------------------------------------
 
   async function loadApplication() {
     setStatus(STATUS.loading);
     clearError();
     setBusy(true);
-
-    // Load saved results from localStorage
     state.results = loadResultsFromStorage();
-
-    // Try metadata.json first, then metadata.csv, then fall back to upload UI
     try {
-      var jsonResponse = await fetch("metadata.json");
-      if (jsonResponse.ok) {
-        var data = await jsonResponse.json();
-        state.records = Array.isArray(data) ? data : (data.records || []);
-      } else {
-        var csvResponse = await fetch("metadata.csv");
-        if (!csvResponse.ok) {
-          throw new Error("Nobena metadatoteka ni bila najdena.");
-        }
-        var csvText = await csvResponse.text();
-        state.records = parseCsv(csvText);
+      var response = await fetch("metadata.csv");
+      if (!response.ok) {
+        throw new Error("metadata.csv ni bila najdena (HTTP " + response.status + ").");
+      }
+      var csvText = await response.text();
+      state.records = parseCsv(csvText);
+      if (!state.records.length) {
+        throw new Error("metadata.csv je prazna ali ni veljavna.");
       }
       state.current = firstIncompleteIndex(getVisibleRecords());
       setStatus(STATUS.ready);
-      showApp();
       render();
     } catch (err) {
-      // Neither file found — show the upload UI instead
+      setStatus("Napaka");
+      showError(err.message);
+    } finally {
       setBusy(false);
-      setStatus("Čakam na datoteko ...");
-      showUploadSection();
     }
-
-    setBusy(false);
   }
 
   // ---------------------------------------------------------------------------
-  // CSV upload fallback
+  // CSV parser
   // ---------------------------------------------------------------------------
 
-  function showUploadSection() {
-    if (el.uploadSection) {
-      el.uploadSection.classList.remove("hidden");
-    }
-    if (el.app) {
-      el.app.classList.add("hidden");
-    }
-    if (el.lastResultsBox) {
-      el.lastResultsBox.classList.add("hidden");
-    }
-  }
-
-  function showApp() {
-    if (el.uploadSection) {
-      el.uploadSection.classList.add("hidden");
-    }
-    if (el.app) {
-      el.app.classList.remove("hidden");
-    }
-  }
-
-  function handleMetadataUpload(event) {
-    var file = event.target.files && event.target.files[0];
-    if (!file) {
-      return;
-    }
-    var reader = new FileReader();
-    reader.onload = function (e) {
-      var text = e.target.result;
-      try {
-        var records = parseCsv(text);
-        if (!records.length) {
-          showError("CSV datoteka je prazna ali ni veljavna.");
-          return;
-        }
-        state.records = records;
-        state.current = firstIncompleteIndex(getVisibleRecords());
-        clearError();
-        setStatus(STATUS.ready);
-        showApp();
-        render();
-      } catch (err) {
-        showError("Napaka pri branju CSV: " + err.message);
-      }
-    };
-    reader.readAsText(file, "UTF-8");
-  }
-
-  // Minimal RFC-4180 CSV parser
   function parseCsv(text) {
     var lines = text.replace(/\r\n/g, "\n").replace(/\r/g, "\n").split("\n");
-    if (!lines.length) {
-      return [];
-    }
+    if (!lines.length) { return []; }
     var headers = splitCsvLine(lines[0]);
     var records = [];
     for (var i = 1; i < lines.length; i++) {
       var line = lines[i].trim();
-      if (!line) {
-        continue;
-      }
+      if (!line) { continue; }
       var values = splitCsvLine(line);
       var record = {};
       headers.forEach(function (header, index) {
@@ -254,23 +186,13 @@
     for (var i = 0; i < line.length; i++) {
       var ch = line[i];
       if (inQuotes) {
-        if (ch === '"' && line[i + 1] === '"') {
-          current += '"';
-          i++;
-        } else if (ch === '"') {
-          inQuotes = false;
-        } else {
-          current += ch;
-        }
+        if (ch === '"' && line[i + 1] === '"') { current += '"'; i++; }
+        else if (ch === '"') { inQuotes = false; }
+        else { current += ch; }
       } else {
-        if (ch === '"') {
-          inQuotes = true;
-        } else if (ch === "," || ch === ";") {
-          result.push(current);
-          current = "";
-        } else {
-          current += ch;
-        }
+        if (ch === '"') { inQuotes = true; }
+        else if (ch === "," || ch === ";") { result.push(current); current = ""; }
+        else { current += ch; }
       }
     }
     result.push(current);
@@ -285,32 +207,21 @@
     var map = new Map();
     try {
       var raw = localStorage.getItem(STORAGE_KEY);
-      if (!raw) {
-        return map;
-      }
+      if (!raw) { return map; }
       var arr = JSON.parse(raw);
-      if (!Array.isArray(arr)) {
-        return map;
-      }
+      if (!Array.isArray(arr)) { return map; }
       arr.forEach(function (result) {
         var key = resultKey(result);
-        if (key) {
-          map.set(key, result);
-        }
+        if (key) { map.set(key, result); }
       });
-    } catch (err) {
-      // Ignore corrupt data
-    }
+    } catch (err) { /* ignore corrupt data */ }
     return map;
   }
 
   function saveResultsToStorage() {
     try {
-      var arr = Array.from(state.results.values());
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(arr));
-    } catch (err) {
-      // Storage might be full; non-fatal
-    }
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(Array.from(state.results.values())));
+    } catch (err) { /* storage full — non-fatal */ }
   }
 
   // ---------------------------------------------------------------------------
@@ -333,8 +244,7 @@
       });
       rows.push(row.join(","));
     });
-    var csv = rows.join("\n");
-    var blob = new Blob(["\uFEFF" + csv], { type: "text/csv;charset=utf-8;" });
+    var blob = new Blob(["\uFEFF" + rows.join("\n")], { type: "text/csv;charset=utf-8;" });
     var url = URL.createObjectURL(blob);
     var a = document.createElement("a");
     a.href = url;
@@ -346,7 +256,7 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Validation save / reset (now localStorage-backed)
+  // Save / reset
   // ---------------------------------------------------------------------------
 
   function saveValidation(payload) {
@@ -354,15 +264,12 @@
     setBusy(true);
     setStatus(STATUS.saving);
     clearError();
-
     state.results.set(resultKey(payload), payload);
     saveResultsToStorage();
-
     state.correctionOpen = false;
     moveToNextIncomplete();
     render();
     setStatus(STATUS.imageLoading);
-
     waitForCurrentImage().then(function () {
       setStatus(STATUS.saved);
       state.saving = false;
@@ -372,9 +279,7 @@
   }
 
   function resetProgress() {
-    if (state.saving || !window.confirm("Ali res želite izbrisati vse rezultate validacije?")) {
-      return;
-    }
+    if (state.saving || !window.confirm("Ali res želite izbrisati vse rezultate validacije?")) { return; }
     state.results = new Map();
     state.current = 0;
     state.filter = "all";
@@ -390,10 +295,7 @@
 
   function waitForCurrentImage() {
     var record = getVisibleRecords()[state.current];
-    if (!record || !record.ime_datoteke) {
-      return Promise.resolve();
-    }
-    // Images live in the "images/" folder next to index.html
+    if (!record || !record.ime_datoteke) { return Promise.resolve(); }
     var imageUrl = "images/" + encodeURIComponent(record.ime_datoteke);
     return new Promise(function (resolve) {
       var settled = false;
@@ -412,7 +314,7 @@
   }
 
   // ---------------------------------------------------------------------------
-  // Render helpers (unchanged from original)
+  // Render
   // ---------------------------------------------------------------------------
 
   function getVisibleRecords() {
@@ -442,9 +344,7 @@
   function isCompleted(record) {
     var result = resultFor(record);
     if (!result) { return false; }
-    if (result.validation_answer === "DA") {
-      return result.correction_source === "NOT_APPLICABLE";
-    }
+    if (result.validation_answer === "DA") { return result.correction_source === "NOT_APPLICABLE"; }
     return result.validation_answer === "NE"
       && isOfficialCode(result.corrected_BBCH)
       && (result.correction_source === "OFFICIAL_DROPDOWN" || result.correction_source === "MANUAL_ENTRY");
@@ -455,9 +355,8 @@
     var visible = getVisibleRecords();
     el.app.classList.toggle("hidden", state.records.length === 0);
     el.lastResultsBox.classList.toggle("hidden", state.records.length === 0);
-
     if (!state.records.length) {
-      el.emptyImage.textContent = "metadata.json / CSV je prazen ali manjka.";
+      el.emptyImage.textContent = "metadata.csv je prazna ali manjka.";
       return;
     }
     if (!visible.length) {
@@ -502,7 +401,6 @@
 
   function renderImage(record) {
     var filename = record.ime_datoteke || "";
-    // Images are served from the "images/" subfolder
     var imageUrl = filename ? "images/" + encodeURIComponent(filename) : "";
     el.mainImage.onload = function () {
       el.mainImage.classList.remove("hidden");
@@ -522,9 +420,7 @@
       el.mainImage.onerror();
       return;
     }
-    if (state.displayedImageUrl === imageUrl && el.mainImage.getAttribute("src") === imageUrl) {
-      return;
-    }
+    if (state.displayedImageUrl === imageUrl && el.mainImage.getAttribute("src") === imageUrl) { return; }
     state.displayedImageUrl = imageUrl;
     el.mainImage.classList.add("hidden");
     el.emptyImage.classList.remove("hidden");
@@ -545,9 +441,7 @@
     ];
     el.metadataBody.innerHTML = "";
     rows.forEach(function (row) {
-      if (!row[1] && row[0] !== "Predlagana BBCH ocena" && row[0] !== "Predlagana fenofaza") {
-        return;
-      }
+      if (!row[1] && row[0] !== "Predlagana BBCH ocena" && row[0] !== "Predlagana fenofaza") { return; }
       var tr = document.createElement("tr");
       var th = document.createElement("th");
       var td = document.createElement("td");
@@ -611,7 +505,6 @@
     custom.value = "custom";
     custom.textContent = "Drugo – ročni vnos BBCH-kode";
     el.correctionSelect.appendChild(custom);
-
     if (current && current.validation_answer === "NE") {
       if (current.correction_source === "MANUAL_ENTRY") {
         el.correctionSelect.value = "custom";
@@ -772,9 +665,7 @@
     });
   }
 
-  function setStatus(status) {
-    el.statusIndicator.textContent = status;
-  }
+  function setStatus(status) { el.statusIndicator.textContent = status; }
 
   function showError(message) {
     el.errorBox.textContent = message;
