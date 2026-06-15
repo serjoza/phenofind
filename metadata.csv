@@ -1,6 +1,6 @@
 ﻿ID;ime_datoteke;BBCH ocena;Fenofaza;Zanesljivost;Opomba
 JABLANA_00001;JABLANA_00001.jpg;53;Razpiranje brsta / začetek odpiranja cvetnega brsta;82;"Luske razprte, viden svetel zelenkasto-bel notranji del; listi še niso razviti."
-JABLANA_00002;JABLANA_00002.jpg;52/53;Nabrekel brst, začetek razpiranja;70;"Brst močno nabrekel; zeleni vršiček manj jasno viden."
+JABLANA_00002;JABLANA_00002.jpg;52;Nabrekel brst, začetek razpiranja;70;"Brst močno nabrekel; zeleni vršiček manj jasno viden."
 JABLANA_00003;JABLANA_00003.jpg;53;Začetek razpiranja cvetnih/mešanih brstov;72;"Več brstov z razprtimi luskami; ponekod viden svetlejši notranji del."
 JABLANA_00004;JABLANA_00004.jpg;53;Razpiranje brstov;72;Brsti odprti na konici, brez jasno razvitih lističev.
 JABLANA_00005;JABLANA_00005.jpg;53;Razpiranje brstov, zeleni/svetli vršički vidni;86;Več brstov ima jasno razprte luske in svetlejši vršiček.
@@ -8,7 +8,7 @@ JABLANA_00006;JABLANA_00006.jpg;53;Razpiranje brstov;86;Več brstov v fazi odprt
 JABLANA_00007;JABLANA_00007.jpg;53;Začetek odpiranja terminalnega brsta;75;Terminalni brst ima odprto konico in svetel notranji del.
 JABLANA_00008;JABLANA_00008.jpg;53;Razpiranje terminalnega brsta;74;"Zgornji brst odprt na konici; lateralni brsti nekoliko manj razviti."
 JABLANA_00009;JABLANA_00009.jpg;54;Začetek mišjega ušesa;73;Zeleni listni vršički že bolj izbočeni iz brsta.
-JABLANA_00010;JABLANA_00010.jpg;51/52;Nabrekanje brsta pred polnim razpiranjem;68;"Brst povečan, luske razrahljane; zeleni vršiček ni jasno viden."
+JABLANA_00010;JABLANA_00010.jpg;51;Nabrekanje brsta pred polnim razpiranjem;68;"Brst povečan, luske razrahljane; zeleni vršiček ni jasno viden."
 JABLANA_00011;JABLANA_00011.jpg;54;Začetek mišjega ušesa;82;Zeleni listni vršički jasno izstopajo iz brsta, vendar listi še niso dobro razprti.
 JABLANA_00012;JABLANA_00012.jpg;54;Začetek mišjega ušesa;75;"Zeleni vršički so vidni in nekoliko izbočeni; cvetni brsti še niso ločeni."
 JABLANA_00013;JABLANA_00013.jpg;53;Razpiranje brsta;70;Brst je razprt na konici, viden je svetel zelenkast notranji del, vendar še ni pravega mišjega ušesa.
@@ -18,32 +18,32 @@ JABLANA_00016;JABLANA_00016.jpg;54;Začetek mišjega ušesa;67;Iz brsta že izra
 JABLANA_00017;JABLANA_00017.jpg;55;Vidni cvetni brsti / zeleni popek;83;"Brst je odprt, zeleni deli so že močno razviti; začetek vidnosti cvetnega nastavka."
 JABLANA_00018;JABLANA_00018.jpg;55;Vidni cvetni brsti / zeleni popek;76;"Na več brstih so že vidni zeleni razviti deli; povprečno naprednejše od BBCH 54."
 JABLANA_00019;JABLANA_00019.jpg;55;Vidni cvetni brsti / zeleni popek;88;Več brstov ima razprte zelene dele in začetno oblikovan cvetno-listni šop.
-JABLANA_00020;JABLANA_00020.jpg;54/55;Mišje uho do začetek zelenega popka;80;"Listni vršički so že podaljšani in delno razprti; prehod v BBCH 55."
+JABLANA_00020;JABLANA_00020.jpg;54;Mišje uho do začetek zelenega popka;80;"Listni vršički so že podaljšani in delno razprti; prehod v BBCH 55."
 JABLANA_00021;JABLANA_00021.jpg;54;Mišje uho / začetek odpiranja listnih vršičkov;72;Na več brstih so vidni zeleni ali svetli vršički, večina pa še ni močno razprta.
 JABLANA_00022;JABLANA_00022.jpg;55;Vidni cvetni brsti / zeleni popek;84;Na več mestih so že vidni zeleni listni deli in začetno oblikovani cvetni brsti.
-JABLANA_00023;JABLANA_00023.jpg;53/54;Razpiranje brsta do mišje uho;69;Posamezni brsti imajo razprte luske in viden zelenkast vršiček, vendar listi še niso izrazito odprti.
-JABLANA_00024;JABLANA_00024.jpg;53/54;Razpiranje brsta do mišje uho;69;"Podobno kot slika 23; del brstov je še v BBCH 53, razvitejši prehajajo v BBCH 54."
+JABLANA_00023;JABLANA_00023.jpg;53;Razpiranje brsta do mišje uho;69;Posamezni brsti imajo razprte luske in viden zelenkast vršiček, vendar listi še niso izrazito odprti.
+JABLANA_00024;JABLANA_00024.jpg;53;Razpiranje brsta do mišje uho;69;"Podobno kot slika 23; del brstov je še v BBCH 53, razvitejši prehajajo v BBCH 54."
 JABLANA_00025;JABLANA_00025.jpg;53;Razpiranje brsta;72;Brst je odprt na konici, viden je svetel notranji del, listni vršički še niso jasno razprti.
 JABLANA_00026;JABLANA_00026.jpg;55;Vidni cvetni brsti / zeleni popek;84;Zeleni deli so že jasno zunaj brsta, cvetno-listni šopi se začenjajo oblikovati.
 JABLANA_00027;JABLANA_00027.jpg;55;Vidni cvetni brsti / zeleni popek;90;Brst je odprt, vidni so zeleni listni deli in kompaktni cvetni nastavki.
 JABLANA_00028;JABLANA_00028.jpg;55;Vidni cvetni brsti / zeleni popek;76;Na drevesu je več brstov z vidnimi zelenimi deli, vendar še brez jasno ločenih posameznih cvetov.
-JABLANA_00029;JABLANA_00029.jpg;55/56;Zeleni popek, začetek ločevanja cvetnih brstov;82;Listi so že delno razprti, cvetni brsti so vidni in pri nekaterih se začenjajo ločevati.
-JABLANA_00030;JABLANA_00030.jpg;55/56;Zeleni popek, začetek ločevanja cvetnih brstov;82;"Več brstov ima razprte zelene liste in vidne cvetne nastavke; prehod proti BBCH 56."
-JABLANA_00031;JABLANA_00031.jpg;55/56;Zeleni popek, začetek ločevanja cvetnih brstov;70;"Na več brstih so že vidni zeleni listni deli in rdečkasti zaprti cvetni brsti; ocena je manj zanesljiva zaradi širšega kadra."
+JABLANA_00029;JABLANA_00029.jpg;55;Zeleni popek, začetek ločevanja cvetnih brstov;82;Listi so že delno razprti, cvetni brsti so vidni in pri nekaterih se začenjajo ločevati.
+JABLANA_00030;JABLANA_00030.jpg;55;Zeleni popek, začetek ločevanja cvetnih brstov;82;"Več brstov ima razprte zelene liste in vidne cvetne nastavke; prehod proti BBCH 56."
+JABLANA_00031;JABLANA_00031.jpg;55;Zeleni popek, začetek ločevanja cvetnih brstov;70;"Na več brstih so že vidni zeleni listni deli in rdečkasti zaprti cvetni brsti; ocena je manj zanesljiva zaradi širšega kadra."
 JABLANA_00032;JABLANA_00032.jpg;56;Ločevanje cvetnih brstov;84;Več cvetno-listnih šopov je že odprtih, listi so vidni, posamezni cvetni brsti se začenjajo ločevati.
-JABLANA_00033;JABLANA_00033.jpg;54/55;Mišje uho do zeleni popek;65;"Slika je bolj oddaljena; večina vidnih brstov je še manj razvita, ponekod so vidni zeleni vršički."
+JABLANA_00033;JABLANA_00033.jpg;54;Mišje uho do zeleni popek;65;"Slika je bolj oddaljena; večina vidnih brstov je še manj razvita, ponekod so vidni zeleni vršički."
 JABLANA_00034;JABLANA_00034.jpg;55;Zeleni popek;74;Brsti so odprti, zeleni deli so vidni, posamezni cvetni brsti pa še niso jasno ločeni.
 JABLANA_00035;JABLANA_00035.jpg;55;Zeleni popek;74;"Podobno kot slika 34; zeleni in svetli deli so vidni, vendar še brez jasnega ločevanja posameznih cvetov."
-JABLANA_00036;JABLANA_00036.jpg;54/55;Mišje uho do zeleni popek;70;Terminalni brst ima že vidne zelene vršičke, vendar je še precej kompakten.
+JABLANA_00036;JABLANA_00036.jpg;54;Mišje uho do zeleni popek;70;Terminalni brst ima že vidne zelene vršičke, vendar je še precej kompakten.
 JABLANA_00037;JABLANA_00037.jpg;56;Ločevanje cvetnih brstov;90;Listi so že delno razprti, rdečkasti cvetni brsti so vidni in se začenjajo ločevati.
 JABLANA_00038;JABLANA_00038.jpg;56;Ločevanje cvetnih brstov;85;Več brstov ima razprte listne dele, zaprti cvetni brsti so jasno vidni in delno ločeni.
-JABLANA_00039;JABLANA_00039.jpg;55/56;Zeleni popek do ločevanje cvetnih brstov;82;"Na bližnjih brstih so vidni zeleni listi in zaprti rdečkasti cvetni brsti; razvoj je nekoliko neenakomeren."
+JABLANA_00039;JABLANA_00039.jpg;55;Zeleni popek do ločevanje cvetnih brstov;82;"Na bližnjih brstih so vidni zeleni listi in zaprti rdečkasti cvetni brsti; razvoj je nekoliko neenakomeren."
 JABLANA_00040;JABLANA_00040.jpg;56;Ločevanje cvetnih brstov;83;Na drevesu je več cvetno-listnih šopov z razprtimi listi in vidnimi zaprtimi cvetnimi brsti.
 JABLANA_00041;JABLANA_00041.jpg;56;Ločevanje cvetnih brstov;84;Listi so že odprti, cvetni brsti so vidni in se začenjajo ločevati, vendar še niso v izraziti rožnati fazi.
-JABLANA_00042;JABLANA_00042.jpg;55/56;Zeleni popek do ločevanje cvetnih brstov;72;Del brstov je še kompakten, pri nekaterih so že vidni listi in zaprti cvetni brsti.
+JABLANA_00042;JABLANA_00042.jpg;55;Zeleni popek do ločevanje cvetnih brstov;72;Del brstov je še kompakten, pri nekaterih so že vidni listi in zaprti cvetni brsti.
 JABLANA_00043;JABLANA_00043.jpg;55;Zeleni popek;73;Brsti so odprti, vidni so zeleni deli in rdečkasti cvetni nastavki, vendar je ločevanje cvetov še slabo izraženo.
 JABLANA_00044;JABLANA_00044.jpg;56;Ločevanje cvetnih brstov;84;Listi so razprti, cvetni brsti so jasno vidni in delno ločeni.
-JABLANA_00045;JABLANA_00045.jpg;55/56;Zeleni popek do ločevanje cvetnih brstov;75;"Na več brstih so vidni zeleni listni deli in zaprti cvetni brsti; razvoj je neenakomeren."
+JABLANA_00045;JABLANA_00045.jpg;55;Zeleni popek do ločevanje cvetnih brstov;75;"Na več brstih so vidni zeleni listni deli in zaprti cvetni brsti; razvoj je neenakomeren."
 JABLANA_00046;JABLANA_00046.jpg;55;Zeleni popek;76;Večina brstov je odprta, vidni so zeleni/svetli deli, posamezni cvetovi še niso jasno ločeni.
 JABLANA_00047;JABLANA_00047.jpg;56;Ločevanje cvetnih brstov;91;Listi so že dobro razviti, cvetni brsti so jasno vidni in ločeni znotraj cvetnega šopa.
 JABLANA_00048;JABLANA_00048.jpg;56;Ločevanje cvetnih brstov;85;Cvetni šopi so odprti, listi so vidni, posamezni cvetni brsti so ločeni.
@@ -52,40 +52,40 @@ JABLANA_00050;JABLANA_00050.jpg;57;Rožnati popek;93;Izrazito rožnati zaprti cv
 JABLANA_00051;JABLANA_00051.jpg;57;Rožnati popek;93;"Cvetni brsti so jasno rožnati, zaprti in povečani; listi so razviti, cvetovi še niso odprti."
 JABLANA_00052;JABLANA_00052.jpg;57;Rožnati popek;83;"Na več brstih so vidni rožnati zaprti cvetni brsti; slika je širša, zato ocena predstavlja povprečje vidnih brstov."
 JABLANA_00053;JABLANA_00053.jpg;57;Rožnati popek;85;"Več cvetnih šopov ima rožnate zaprte brste; cvetovi še niso odprti."
-JABLANA_00054;JABLANA_00054.jpg;56/57;Ločevanje cvetnih brstov do rožnati popek;74;Brsti so ločeni, listi razviti, ponekod je že vidna rožnata barva, vendar ni povsod izrazita.
+JABLANA_00054;JABLANA_00054.jpg;56;Ločevanje cvetnih brstov do rožnati popek;74;Brsti so ločeni, listi razviti, ponekod je že vidna rožnata barva, vendar ni povsod izrazita.
 JABLANA_00055;JABLANA_00055.jpg;56;Ločevanje cvetnih brstov;85;Listi so razviti, cvetni brsti so ločeni, vendar so večinoma še zeleni/svetli in ne izrazito rožnati.
 JABLANA_00056;JABLANA_00056.jpg;56;Ločevanje cvetnih brstov;84;Cvetni brsti so jasno ločeni v šopu, listi so razprti, rožnata barva še ni prevladujoča.
 JABLANA_00057;JABLANA_00057.jpg;56;Ločevanje cvetnih brstov;84;Listi so dobro razviti, cvetni brsti so vidni in ločeni, vendar ostajajo večinoma zaprti in zeleni/svetli.
 JABLANA_00058;JABLANA_00058.jpg;56;Ločevanje cvetnih brstov;72;"Cvetni brsti so ločeni, listi razprti; zaradi rahle neostrine rožnata faza ni zanesljivo potrjena."
 JABLANA_00059;JABLANA_00059.jpg;56;Ločevanje cvetnih brstov;85;Listi so razviti, cvetni šop je oblikovan, posamezni cvetni brsti so še zaprti in večinoma svetli.
 JABLANA_00060;JABLANA_00060.jpg;57;Rožnati popek;87;"Cvetni brsti so zaprti, povečani in že vidno rožnato obarvani; cvetovi še niso odprti."
-JABLANA_00061;JABLANA_00061.jpg;56/57;Ločevanje cvetnih brstov do rožnati popek;82;"Listi so razviti, cvetni brsti so zaprti in delno ločeni; ponekod je že vidna rožnata barva."
+JABLANA_00061;JABLANA_00061.jpg;56;Ločevanje cvetnih brstov do rožnati popek;82;"Listi so razviti, cvetni brsti so zaprti in delno ločeni; ponekod je že vidna rožnata barva."
 JABLANA_00062;JABLANA_00062.jpg;56;Ločevanje cvetnih brstov;85;Cvetni šop je jasno oblikovan, listi so razprti, posamezni cvetni brsti so še večinoma svetli/zeleni in zaprti.
-JABLANA_00063;JABLANA_00063.jpg;56/57;Ločevanje cvetnih brstov do rožnati popek;72;"Širši kader kaže več razvitih listnih šopov in zaprtih cvetnih brstov; faza je nekoliko neenakomerna."
+JABLANA_00063;JABLANA_00063.jpg;56;Ločevanje cvetnih brstov do rožnati popek;72;"Širši kader kaže več razvitih listnih šopov in zaprtih cvetnih brstov; faza je nekoliko neenakomerna."
 JABLANA_00064;JABLANA_00064.jpg;56;Ločevanje cvetnih brstov;82;Listi so razviti, cvetni brsti so vidni in zaprti, rožnata barva še ni prevladujoča.
 JABLANA_00065;JABLANA_00065.jpg;56;Ločevanje cvetnih brstov;84;Listi so razprti, cvetni brsti so ločeni v šopu, vendar so večinoma še svetli/zeleni.
 JABLANA_00066;JABLANA_00066.jpg;56;Ločevanje cvetnih brstov;77;"Več brstov je v fazi razprtih listov in zaprtih cvetnih brstov; slika je nekoliko manj ostra."
-JABLANA_00067;JABLANA_00067.jpg;56/57;Ločevanje cvetnih brstov do rožnati popek;70;"Širši kader z neenakomerno razvitimi brsti; večina je med BBCH 56 in začetkom BBCH 57."
+JABLANA_00067;JABLANA_00067.jpg;56;Ločevanje cvetnih brstov do rožnati popek;70;"Širši kader z neenakomerno razvitimi brsti; večina je med BBCH 56 in začetkom BBCH 57."
 JABLANA_00068;JABLANA_00068.jpg;57;Rožnati popek;88;"Cvetni brsti so zaprti, povečani in jasno rožnato obarvani; cvetovi še niso odprti."
-JABLANA_00069;JABLANA_00069.jpg;56/57;Ločevanje cvetnih brstov do rožnati popek;83;"Listi so razviti, cvetni brsti zaprti in delno ločeni; rožnata barva je vidna, a ne prevladuje v celoti."
+JABLANA_00069;JABLANA_00069.jpg;56;Ločevanje cvetnih brstov do rožnati popek;83;"Listi so razviti, cvetni brsti zaprti in delno ločeni; rožnata barva je vidna, a ne prevladuje v celoti."
 JABLANA_00070;JABLANA_00070.jpg;57;Rožnati popek;86;"Cvetni brsti so zaprti in že vidno rožnati, listi so dobro razviti; odprtih cvetov še ni."
 JABLANA_00071;JABLANA_00071.jpg;57;Rožnati popek;88;"Cvetni brsti so zaprti, povečani in jasno rožnato obarvani; listi so dobro razviti."
-JABLANA_00072;JABLANA_00072.jpg;56/57;Ločevanje cvetnih brstov do rožnati popek;74;"Širši kader z več neenakomerno razvitimi brsti; večina je med ločevanjem cvetnih brstov in začetkom rožnatega popka."
+JABLANA_00072;JABLANA_00072.jpg;56;Ločevanje cvetnih brstov do rožnati popek;74;"Širši kader z več neenakomerno razvitimi brsti; večina je med ločevanjem cvetnih brstov in začetkom rožnatega popka."
 JABLANA_00073;JABLANA_00073.jpg;57;Rožnati popek;84;"Na več mestih so vidni zaprti rožnati cvetni brsti in razviti listi; faza je dobro razvidna, a slika je nekoliko širša."
-JABLANA_00074;JABLANA_00074.jpg;56/57;Ločevanje cvetnih brstov do rožnati popek;72;Brsti so razviti in delno rožnati, vendar je kader širši in razvoj po drevesu ni povsem enoten.
+JABLANA_00074;JABLANA_00074.jpg;56;Ločevanje cvetnih brstov do rožnati popek;72;Brsti so razviti in delno rožnati, vendar je kader širši in razvoj po drevesu ni povsem enoten.
 JABLANA_00075;JABLANA_00075.jpg;56;Ločevanje cvetnih brstov;82;Listi so razviti, cvetni brsti so ločeni in zaprti, rožnata barva še ni izrazito prevladujoča.
-JABLANA_00076;JABLANA_00076.jpg;56/57;Ločevanje cvetnih brstov do rožnati popek;78;"Več cvetnih šopov ima razvite liste in zaprte cvetne brste; ponekod je že vidna rožnata barva."
-JABLANA_00077;JABLANA_00077.jpg;56/57;Ločevanje cvetnih brstov do rožnati popek;83;Listi so dobro razviti, cvetni brsti so zaprti in delno rožnato obarvani, vendar še niso povsem izrazit rožnati popek.
+JABLANA_00076;JABLANA_00076.jpg;56;Ločevanje cvetnih brstov do rožnati popek;78;"Več cvetnih šopov ima razvite liste in zaprte cvetne brste; ponekod je že vidna rožnata barva."
+JABLANA_00077;JABLANA_00077.jpg;56;Ločevanje cvetnih brstov do rožnati popek;83;Listi so dobro razviti, cvetni brsti so zaprti in delno rožnato obarvani, vendar še niso povsem izrazit rožnati popek.
 JABLANA_00078;JABLANA_00078.jpg;56;Ločevanje cvetnih brstov;84;Cvetni brsti so jasno ločeni v šopu, listi so razviti, brsti so večinoma še svetli/zeleni z malo rožnate barve.
 JABLANA_00079;JABLANA_00079.jpg;56;Ločevanje cvetnih brstov;60;"Slika je neostra; vidni so razviti listi in zaprt cvetni šop, vendar natančna ločitev 56/57 ni zanesljiva."
-JABLANA_00080;JABLANA_00080.jpg;56/57;Ločevanje cvetnih brstov do rožnati popek;82;Cvetni šopi so razviti, listi razprti, zaprti brsti imajo že nekaj rožnate barve, vendar ne povsem prevladujoče.
+JABLANA_00080;JABLANA_00080.jpg;56;Ločevanje cvetnih brstov do rožnati popek;82;Cvetni šopi so razviti, listi razprti, zaprti brsti imajo že nekaj rožnate barve, vendar ne povsem prevladujoče.
 JABLANA_00081;JABLANA_00081.jpg;57;Rožnati popek;78;"Večina cvetnih brstov je zaprta, listi so razviti, ponekod je vidna rožnata barva; širši kader nekoliko zmanjša natančnost."
 JABLANA_00082;JABLANA_00082.jpg;57;Rožnati popek;91;"Zaprti cvetni brsti so jasno povečani, z vidno rožnato barvo; listi so dobro razviti."
-JABLANA_00083;JABLANA_00083.jpg;56/57;Ločevanje cvetnih brstov do rožnati popek;83;Cvetni šop je zaprt, listi so razviti, rožnata barva je prisotna le delno.
+JABLANA_00083;JABLANA_00083.jpg;56;Ločevanje cvetnih brstov do rožnati popek;83;Cvetni šop je zaprt, listi so razviti, rožnata barva je prisotna le delno.
 JABLANA_00084;JABLANA_00084.jpg;57;Rožnati popek;80;Na drevesu je več zaprtih cvetnih šopov z razvitimi listi in delno rožnatimi brsti.
 JABLANA_00085;JABLANA_00085.jpg;57;Rožnati popek;77;Več cvetnih brstov je zaprtih in rožnato obarvanih, vendar je kader širši in posamezni brsti niso povsod ostri.
 JABLANA_00086;JABLANA_00086.jpg;57;Rožnati popek;79;"Drevo je večinoma v fazi zaprtih rožnatih cvetnih brstov; odprtih cvetov še ni videti."
-JABLANA_00087;JABLANA_00087.jpg;56/57;Ločevanje cvetnih brstov do rožnati popek;86;Osrednji cvetni šop je zaprt, listi so razviti, rožnata barva je le rahlo vidna.
+JABLANA_00087;JABLANA_00087.jpg;56;Ločevanje cvetnih brstov do rožnati popek;86;Osrednji cvetni šop je zaprt, listi so razviti, rožnata barva je le rahlo vidna.
 JABLANA_00088;JABLANA_00088.jpg;60;Prvi cvetovi odprti;94;Vidni so prvi jasno odprti beli cvetovi, ob njih pa še številni rožnati zaprti brsti.
 JABLANA_00089;JABLANA_00089.jpg;61;Začetek cvetenja;84;Na drevesu je že več odprtih cvetov, vendar večina cvetnih brstov ostaja v rožnatem popku.
 JABLANA_00090;JABLANA_00090.jpg;61;Začetek cvetenja;88;Prisotnih je več odprtih cvetov po drevesu, hkrati pa še veliko zaprtih rožnatih brstov.
@@ -96,27 +96,27 @@ JABLANA_00094;JABLANA_00094.jpg;59;Balonski stadij / rožnati popek pred odpiran
 JABLANA_00095;JABLANA_00095.jpg;60;Prvi cvetovi odprti;90;Viden je vsaj en odprt cvet, večina ostalih cvetov pa je še v rožnatem popku.
 JABLANA_00096;JABLANA_00096.jpg;60;Prvi cvetovi odprti;87;Na drevesu so posamezni odprti cvetovi, a prevladujejo zaprti rožnati brsti.
 JABLANA_00097;JABLANA_00097.jpg;61;Začetek cvetenja;90;Prisotnih je več odprtih cvetov, hkrati pa velik delež cvetov ostaja še zaprt.
-JABLANA_00098;JABLANA_00098.jpg;60/61;Prvi cvetovi odprti do začetek cvetenja;82;Vidnih je nekaj odprtih cvetov, vendar širši in delno neoster kader oteži natančno oceno deleža.
+JABLANA_00098;JABLANA_00098.jpg;60;Prvi cvetovi odprti do začetek cvetenja;82;Vidnih je nekaj odprtih cvetov, vendar širši in delno neoster kader oteži natančno oceno deleža.
 JABLANA_00099;JABLANA_00099.jpg;61;Začetek cvetenja;88;Več cvetov je odprtih, a še vedno prevladuje kombinacija odprtih cvetov in rožnatih popkov.
-JABLANA_00100;JABLANA_00100.jpg;60/61;Prvi cvetovi odprti do začetek cvetenja;84;"Na posnetku so posamezni odprti cvetovi in številni zaprti brsti; zaradi širšega kadra je delež težje natančno oceniti."
+JABLANA_00100;JABLANA_00100.jpg;60;Prvi cvetovi odprti do začetek cvetenja;84;"Na posnetku so posamezni odprti cvetovi in številni zaprti brsti; zaradi širšega kadra je delež težje natančno oceniti."
 JABLANA_00101;JABLANA_00101.jpg;60;Prvi cvetovi odprti;94;V ospredju je jasno viden en popolnoma odprt cvet, večina ostalih cvetov v šopu pa je še v rožnatem popku.
 JABLANA_00102;JABLANA_00102.jpg;60;Prvi cvetovi odprti;86;Na drevesu so posamezni odprti cvetovi, vendar še vedno močno prevladujejo zaprti rožnati brsti.
 JABLANA_00103;JABLANA_00103.jpg;59;Balonski stadij / rožnati popek pred odpiranjem;95;"Zelo jasen bližnji posnetek napetih rožnatih cvetnih brstov; odprtih cvetov ni videti."
 JABLANA_00104;JABLANA_00104.jpg;59;Balonski stadij / rožnati popek pred odpiranjem;88;"Cvetni brsti so napeti in zaprti, listi so že dobro razviti; odprtih cvetov ni jasno vidnih."
 JABLANA_00105;JABLANA_00105.jpg;59;Balonski stadij / rožnati popek pred odpiranjem;87;"Večina vidnih socvetij je v fazi zaprtih rožnatih brstov; zaradi širšega kadra je nekaj manj natančno."
-JABLANA_00106;JABLANA_00106.jpg;59/60;Balonski stadij do prvi cvetovi odprti;80;"Prevladujeta listje in zaprti rožnati brsti; možni so posamezni začetki odpiranja, vendar niso dovolj jasni."
+JABLANA_00106;JABLANA_00106.jpg;59;Balonski stadij do prvi cvetovi odprti;80;"Prevladujeta listje in zaprti rožnati brsti; možni so posamezni začetki odpiranja, vendar niso dovolj jasni."
 JABLANA_00107;JABLANA_00107.jpg;60;Prvi cvetovi odprti;92;V ospredju je jasno viden odprt cvet, ob njem pa več zaprtih rožnatih brstov.
 JABLANA_00108;JABLANA_00108.jpg;61;Začetek cvetenja;88;Na drevesu je vidnih več odprtih cvetov, vendar velik delež cvetov ostaja še v rožnatem popku.
 JABLANA_00109;JABLANA_00109.jpg;60;Prvi cvetovi odprti;90;Jasno je viden en odprt cvet v socvetju, večina okoliških cvetov je še zaprtih.
 JABLANA_00110;JABLANA_00110.jpg;61;Začetek cvetenja;86;Širši pogled pokaže več odprtih cvetov po drevesu, vendar cvetenje še ni množično.
 JABLANA_00111;JABLANA_00111.jpg;61;Začetek cvetenja;88;"Na drevesu je vidnih več odprtih cvetov, hkrati pa je še veliko rožnatih zaprtih brstov; celotno drevo še ni v polnem cvetenju."
 JABLANA_00112;JABLANA_00112.jpg;61;Začetek cvetenja;90;V ospredju in ozadju so jasno vidni odprti cvetovi, vendar še vedno prevladujejo tudi zaprti rožnati popki.
-JABLANA_00113;JABLANA_00113.jpg;60/61;Prvi cvetovi odprti do začetek cvetenja;82;Glavni vidni šopi so večinoma še v rožnatem popku, vendar so v ozadju prisotni posamezni odprti cvetovi.
+JABLANA_00113;JABLANA_00113.jpg;60;Prvi cvetovi odprti do začetek cvetenja;82;Glavni vidni šopi so večinoma še v rožnatem popku, vendar so v ozadju prisotni posamezni odprti cvetovi.
 JABLANA_00114;JABLANA_00114.jpg;61;Začetek cvetenja;87;Na več mestih so odprti cvetovi, toda večji del socvetij je še v fazi popkov.
-JABLANA_00115;JABLANA_00115.jpg;59/60;Balonski stadij do prvi cvetovi odprti;80;"V ospredju prevladujejo zaprti rožnati brsti; morebitni odprti cvetovi niso dovolj jasno vidni za višjo oceno."
+JABLANA_00115;JABLANA_00115.jpg;59;Balonski stadij do prvi cvetovi odprti;80;"V ospredju prevladujejo zaprti rožnati brsti; morebitni odprti cvetovi niso dovolj jasno vidni za višjo oceno."
 JABLANA_00116;JABLANA_00116.jpg;59;Balonski stadij / rožnati popek pred odpiranjem;88;"Večina dobro vidnih cvetnih brstov je še zaprta in napeta; odprtih cvetov ni jasno vidnih."
 JABLANA_00117;JABLANA_00117.jpg;60;Prvi cvetovi odprti;83;Prisotni so predvsem zaprti popki, vendar je vidno začetno odpiranje posameznih cvetov.
-JABLANA_00118;JABLANA_00118.jpg;61/62;Začetek cvetenja do zgodnje cvetenje;82;"Več cvetov je odprtih, nekateri cvetni listi že rjavijo, vendar je še vedno prisotnih veliko zaprtih popkov; zaradi staranja cvetov je ocena manj zanesljiva."
+JABLANA_00118;JABLANA_00118.jpg;61;Začetek cvetenja do zgodnje cvetenje;82;"Več cvetov je odprtih, nekateri cvetni listi že rjavijo, vendar je še vedno prisotnih veliko zaprtih popkov; zaradi staranja cvetov je ocena manj zanesljiva."
 JABLANA_00119;JABLANA_00119.jpg;62;Zgodnje cvetenje;92;"V bližnjem planu je odprtih več cvetov v istem socvetju, ob njih pa so še zaprti popki; cvetenje je že jasno napredovalo."
 JABLANA_00120;JABLANA_00120.jpg;62;Zgodnje cvetenje;90;Več odprtih cvetov je jasno vidnih, vendar cvetenje še ni enakomerno polno po celotnem drevesu.
 JABLANA_00121;JABLANA_00121.jpg;63;Zgodnje do srednje cvetenje;86;Več cvetov je odprtih, del cvetnih listov že rjavi, hkrati pa je še precej zaprtih rožnatih popkov.
